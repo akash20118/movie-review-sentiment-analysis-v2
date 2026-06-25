@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Movie Sentiment Analytics Dashboard</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+
+<div class="background-blur blur1"></div>
+<div class="background-blur blur2"></div>
+
+<div class="dashboard">
+
+    <div class="navbar">
+        <div class="logo">SentimentAI</div>
+        <div class="nav-subtitle">Machine Learning Dashboard</div>
+    </div>
+
+    <div class="header">
+        <h1>Movie Review Sentiment Analysis</h1>
+        <p>
+            AI-powered sentiment classification using NLP,
+            TF-IDF Vectorization and Logistic Regression.
+        </p>
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <h2>50K+</h2>
+            <p>IMDb Reviews</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>89.54%</h2>
+            <p>Accuracy</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>TF-IDF</h2>
+            <p>Vectorization</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>Logistic Regression</h2>
+            <p>Algorithm</p>
+        </div>
+
+    </div>
+
+    <div class="top-section">
+
+        <div class="glass-card">
+
+            <h3>Sentiment Status</h3>
+
+            {% if prediction == "positive" %}
+            <div class="gauge positive">
+                <span>POSITIVE</span>
+            </div>
+
+            {% elif prediction == "negative" %}
+            <div class="gauge negative">
+                <span>NEGATIVE</span>
+            </div>
+
+            {% else %}
+            <div class="gauge neutral">
+                <span>READY</span>
+            </div>
+            {% endif %}
+
+        </div>
+
+        <div class="glass-card">
+
+            <h3>Prediction Details</h3>
+
+            {% if prediction %}
+
+            <div class="confidence-value">
+                {{ confidence }}%
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill"
+                
+                </div>
+            </div>
+
+            <div class="prediction-label">
+                {{ prediction.upper() }}
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+                Submit a review to generate results.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="glass-card">
+
+        <h3>Review Analysis</h3>
+
+        <form action="/predict" method="POST">
+
+            <textarea
+            name="review"
+            placeholder="Enter a movie review..."
+            required>{{ review if review else '' }}</textarea>
+
+            <button type="submit">
+                Analyze Sentiment
+            </button>
+
+        </form>
+
+    </div>
+    return render_template(
+    "index.html",
+    prediction=prediction,
+    confidence=confidence,
+    review=review,
+    word_count=word_count
+    )
+    {% if review %}
+
+    <div class="glass-card">
+
+        <h3>Input Review</h3>
+
+        <p class="review-text">
+            {{ review }}
+        </p>
+
+    </div>
+
+    {% endif %}
+
+    <footer>
+        Movie Review Sentiment Analysis Dashboard |
+        
+    </footer>
+
+</div>
+
+</body>
+</html>
